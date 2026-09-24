@@ -118,10 +118,450 @@
         transform: scale(1.2);
       }
     }
+
+
+    /* ===== Ambient effects around the heart ===== */
+    body {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(255, 102, 153, 0.10) 0%, rgba(0, 0, 0, 0.96) 42%, #000 72%);
+    }
+
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .box {
+      z-index: 2;
+      filter: drop-shadow(0 0 18px rgba(255, 102, 153, 0.65))
+              drop-shadow(0 0 38px rgba(255, 102, 153, 0.35));
+    }
+
+    .name,
+    .date {
+      z-index: 4;
+      text-shadow: 0 0 10px rgba(255, 102, 153, 0.65),
+                   0 0 24px rgba(255, 102, 153, 0.35);
+    }
+
+    .heart-aura {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: min(72vw, 620px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle,
+        rgba(255, 102, 153, 0.20) 0%,
+        rgba(255, 102, 153, 0.08) 34%,
+        rgba(255, 102, 153, 0.00) 70%);
+      filter: blur(10px);
+      animation: auraPulse 2.2s ease-in-out infinite;
+    }
+
+    .pulse-ring {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 330px;
+      height: 330px;
+      transform: translate(-50%, -50%) scale(0.65);
+      border: 2px solid rgba(255, 102, 153, 0.48);
+      border-radius: 50%;
+      box-shadow: 0 0 24px rgba(255, 102, 153, 0.30),
+                  inset 0 0 24px rgba(255, 102, 153, 0.18);
+      pointer-events: none;
+      z-index: 1;
+      animation: ringWave 2.4s ease-out infinite;
+    }
+
+    .pulse-ring.r2 {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes auraPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.55; }
+      50%      { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    }
+
+    @keyframes ringWave {
+      0%   { transform: translate(-50%, -50%) scale(0.60); opacity: 0.75; }
+      70%  { opacity: 0.20; }
+      100% { transform: translate(-50%, -50%) scale(1.65); opacity: 0; }
+    }
+
+    .spark,
+    .mini-heart {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      opacity: 0;
+      will-change: transform, opacity;
+      animation-duration: var(--dur);
+      animation-delay: var(--delay);
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    .spark {
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 8px #fff,
+                  0 0 14px rgba(255, 102, 153, 0.95),
+                  0 0 24px rgba(255, 102, 153, 0.55);
+      animation-name: sparkleFloat;
+    }
+
+    .mini-heart {
+      color: rgba(255, 102, 153, 0.9);
+      font-size: var(--size);
+      text-shadow: 0 0 8px rgba(255, 102, 153, 0.8);
+      animation-name: heartFloat;
+    }
+
+    @keyframes sparkleFloat {
+      0%   { transform: translate3d(0, 22px, 0) scale(0.5); opacity: 0; }
+      20%  { opacity: 0.95; }
+      55%  { transform: translate3d(var(--drift), -18px, 0) scale(1.3); opacity: 1; }
+      100% { transform: translate3d(calc(var(--drift) * -0.5), -62px, 0) scale(0.5); opacity: 0; }
+    }
+
+    @keyframes heartFloat {
+      0%   { transform: translate3d(0, 28px, 0) rotate(-8deg) scale(0.65); opacity: 0; }
+      18%  { opacity: 0.85; }
+      65%  { transform: translate3d(var(--drift), -35px, 0) rotate(8deg) scale(1.05); opacity: 0.75; }
+      100% { transform: translate3d(calc(var(--drift) * -0.4), -88px, 0) rotate(-6deg) scale(0.8); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      #pinkboard {
+        width: min(92vw, 500px);
+        height: min(92vw, 500px);
+      }
+      .pulse-ring {
+        width: 58vw;
+        height: 58vw;
+      }
+      .name {
+        font-size: 24px;
+      }
+    }
+
+
+    /* ===== Deluxe romantic layer ===== */
+    .cosmic-glow {
+      position: fixed;
+      inset: -28vmax;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .42;
+      background:
+        conic-gradient(from 0deg at 50% 50%,
+          transparent 0deg,
+          rgba(255, 43, 120, .10) 55deg,
+          transparent 115deg,
+          rgba(164, 75, 255, .09) 190deg,
+          transparent 250deg,
+          rgba(255, 170, 206, .08) 315deg,
+          transparent 360deg);
+      filter: blur(70px);
+      animation: cosmicRotate 24s linear infinite;
+    }
+
+    .soft-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      box-shadow: inset 0 0 110px 28px rgba(0,0,0,.92);
+    }
+
+    .star-field {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sky-star {
+      position: absolute;
+      left: var(--sx);
+      top: var(--sy);
+      width: var(--ss);
+      height: var(--ss);
+      border-radius: 50%;
+      background: rgba(255,255,255,.95);
+      box-shadow:
+        0 0 6px rgba(255,255,255,.85),
+        0 0 12px rgba(255,110,165,.45);
+      opacity: .2;
+      animation: starTwinkle var(--sd) ease-in-out var(--sdelay) infinite;
+    }
+
+    .sky-star.bright::before,
+    .sky-star.bright::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background: rgba(255,255,255,.92);
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+    }
+    .sky-star.bright::before { width: 1px; height: 12px; }
+    .sky-star.bright::after  { width: 12px; height: 1px; }
+
+    .orbit-shell {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: min(76vw, 610px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .orbit {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--orbit-size);
+      height: var(--orbit-size);
+      transform: translate(-50%, -50%) rotate(var(--tilt));
+      border: 1px solid rgba(255, 126, 174, .10);
+      border-radius: 50%;
+      box-shadow: inset 0 0 24px rgba(255, 78, 143, .035);
+      animation: orbitSpin var(--orbit-speed) linear infinite;
+    }
+
+    .orbit.reverse { animation-direction: reverse; }
+
+    .orbit-gem {
+      position: absolute;
+      left: 50%;
+      top: -7px;
+      transform: translateX(-50%) rotate(calc(var(--tilt) * -1));
+      color: #ff78aa;
+      font-size: var(--gem-size);
+      line-height: 1;
+      text-shadow:
+        0 0 5px #fff,
+        0 0 11px rgba(255, 105, 160, .95),
+        0 0 22px rgba(255, 70, 140, .75);
+      filter: drop-shadow(0 0 6px rgba(255, 94, 153, .7));
+      animation: gemPulse 1.5s ease-in-out infinite;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      right: 8%;
+      top: 18%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 8px #fff, 0 0 18px #ff5f9f;
+    }
+
+    .glitter-cross {
+      position: fixed;
+      left: var(--gx);
+      top: var(--gy);
+      width: var(--gs);
+      height: var(--gs);
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      animation: glitterPop var(--gd) ease-in-out var(--gdelay) infinite;
+    }
+    .glitter-cross::before,
+    .glitter-cross::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, #fff, transparent);
+      box-shadow: 0 0 9px rgba(255,255,255,.85);
+    }
+    .glitter-cross::before { width: 100%; height: 1px; }
+    .glitter-cross::after { width: 1px; height: 100%; }
+
+    .shooting-star {
+      position: fixed;
+      width: 90px;
+      height: 1px;
+      left: -120px;
+      top: var(--shot-y);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transform: rotate(-14deg);
+      transform-origin: right center;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), #fff);
+      filter: drop-shadow(0 0 5px rgba(255,120,170,.9));
+      animation: shootAcross var(--shot-d) linear var(--shot-delay) infinite;
+    }
+
+    .shooting-star::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: -2px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 8px #fff, 0 0 18px #ff6ba8;
+    }
+
+    .name {
+      background-image: linear-gradient(100deg,
+        #ff74aa 0%,
+        #fff4f8 18%,
+        #ff91ba 34%,
+        #ffd6e5 52%,
+        #ff639f 70%,
+        #fff 86%,
+        #ff74aa 100%);
+      background-size: 300% auto;
+      animation: nameShimmer 4.8s linear infinite, textBreath 2.2s ease-in-out infinite;
+      letter-spacing: .6px;
+      white-space: nowrap;
+      filter: drop-shadow(0 0 7px rgba(255, 94, 153, .5));
+    }
+
+    .burst-heart {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 20;
+      pointer-events: none;
+      color: var(--bc);
+      font-size: var(--bs);
+      text-shadow: 0 0 10px rgba(255, 110, 170, .85);
+      transform: translate(-50%, -50%);
+      animation: burstHeart 1.05s cubic-bezier(.1,.65,.25,1) forwards;
+    }
+
+    .love-halo {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: min(54vw, 430px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(circle,
+        transparent 48%,
+        rgba(255, 101, 156, .055) 58%,
+        rgba(255, 101, 156, .13) 59%,
+        transparent 62%);
+      filter: blur(.4px);
+      animation: haloBreathe 2.8s ease-in-out infinite;
+    }
+
+    @keyframes cosmicRotate {
+      to { transform: rotate(360deg) scale(1.05); }
+    }
+    @keyframes starTwinkle {
+      0%,100% { opacity: .12; transform: scale(.65); }
+      48% { opacity: .9; transform: scale(1.3); }
+      56% { opacity: .55; transform: scale(.9); }
+    }
+    @keyframes orbitSpin {
+      to { transform: translate(-50%, -50%) rotate(calc(var(--tilt) + 360deg)); }
+    }
+    @keyframes gemPulse {
+      0%,100% { transform: translateX(-50%) scale(.8); opacity: .65; }
+      50% { transform: translateX(-50%) scale(1.18); opacity: 1; }
+    }
+    @keyframes glitterPop {
+      0%,100% { opacity: 0; transform: scale(.3) rotate(0deg); }
+      45% { opacity: .95; transform: scale(1.25) rotate(45deg); }
+      65% { opacity: .55; transform: scale(.75) rotate(80deg); }
+    }
+    @keyframes shootAcross {
+      0%, 72% { opacity: 0; transform: translate3d(0,0,0) rotate(-14deg); }
+      76% { opacity: .85; }
+      86% { opacity: 0; transform: translate3d(calc(100vw + 260px), -210px, 0) rotate(-14deg); }
+      100% { opacity: 0; transform: translate3d(calc(100vw + 260px), -210px, 0) rotate(-14deg); }
+    }
+    @keyframes nameShimmer {
+      to { background-position: 300% center; }
+    }
+    @keyframes textBreath {
+      0%,100% { text-shadow: 0 0 8px rgba(255,102,153,.55), 0 0 19px rgba(255,102,153,.24); }
+      50% { text-shadow: 0 0 13px rgba(255,255,255,.72), 0 0 30px rgba(255,82,145,.56), 0 0 48px rgba(255,82,145,.22); }
+    }
+    @keyframes burstHeart {
+      0% { opacity: 0; transform: translate(-50%, -50%) translate(0,0) scale(.35) rotate(0deg); }
+      18% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--bx), var(--by)) scale(1.05) rotate(var(--br)); }
+    }
+    @keyframes haloBreathe {
+      0%,100% { opacity: .35; transform: translate(-50%, -50%) scale(.9); }
+      50% { opacity: .95; transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    @media (max-width: 600px) {
+      .orbit-shell { width: 93vw; }
+      .love-halo { width: 72vw; }
+      .soft-vignette { box-shadow: inset 0 0 70px 10px rgba(0,0,0,.84); }
+      .shooting-star { width: 65px; }
+      .name { font-size: clamp(20px, 6.8vw, 28px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cosmic-glow, .orbit, .shooting-star, .glitter-cross,
+      .sky-star, .name, .heart-aura, .pulse-ring, #pinkboard {
+        animation-duration: 10s !important;
+      }
+    }
+
   </style>
 </head>
 
 <body>
+
+
+  <div class="cosmic-glow"></div>
+  <div class="star-field" id="starField"></div>
+  <div class="love-halo"></div>
+
+  <div class="orbit-shell" aria-hidden="true">
+    <div class="orbit" style="--orbit-size:70%; --tilt:18deg; --orbit-speed:13s;">
+      <span class="orbit-gem" style="--gem-size:16px;">♥</span><span class="orbit-dot"></span>
+    </div>
+    <div class="orbit reverse" style="--orbit-size:87%; --tilt:-28deg; --orbit-speed:19s;">
+      <span class="orbit-gem" style="--gem-size:12px;">✦</span><span class="orbit-dot"></span>
+    </div>
+    <div class="orbit" style="--orbit-size:100%; --tilt:52deg; --orbit-speed:27s;">
+      <span class="orbit-gem" style="--gem-size:14px;">♡</span><span class="orbit-dot"></span>
+    </div>
+  </div>
+
+  <div class="shooting-star" style="--shot-y:22%; --shot-d:9s; --shot-delay:-2s;"></div>
+  <div class="shooting-star" style="--shot-y:58%; --shot-d:13s; --shot-delay:-7s;"></div>
+
+  <div class="ambient-layer" id="ambientLayer"></div>
+  <div class="heart-aura"></div>
+  <div class="pulse-ring"></div>
+  <div class="pulse-ring r2"></div>
+
   <div class="box">
     <canvas id="pinkboard"></canvas>
   </div>
@@ -380,6 +820,103 @@
   </script>
   <h2 class="name">Anh Yêu Em Lắm</h2>
   <h3 class="date"></h3>
+
+  <script>
+    // Decorative particles around the main heart.
+    (function createAmbientEffects() {
+      const layer = document.getElementById('ambientLayer');
+      const total = 42;
+
+      for (let i = 0; i < total; i++) {
+        const el = document.createElement('span');
+        const isHeart = i % 4 === 0;
+        el.className = isHeart ? 'mini-heart' : 'spark';
+        if (isHeart) el.textContent = '❤';
+
+        // Keep the particles concentrated around the central heart area.
+        const angle = Math.random() * Math.PI * 2;
+        const radiusX = 16 + Math.random() * 28;
+        const radiusY = 16 + Math.random() * 32;
+        const x = 50 + Math.cos(angle) * radiusX;
+        const y = 50 + Math.sin(angle) * radiusY;
+
+        el.style.setProperty('--x', x.toFixed(2) + '%');
+        el.style.setProperty('--y', y.toFixed(2) + '%');
+        el.style.setProperty('--dur', (2.8 + Math.random() * 3.8).toFixed(2) + 's');
+        el.style.setProperty('--delay', (-Math.random() * 5).toFixed(2) + 's');
+        el.style.setProperty('--drift', ((Math.random() - 0.5) * 48).toFixed(1) + 'px');
+        el.style.setProperty('--size', isHeart ? (10 + Math.random() * 12).toFixed(0) + 'px' : (2 + Math.random() * 4).toFixed(0) + 'px');
+
+        layer.appendChild(el);
+      }
+    })();
+  </script>
+
+
+  <script>
+    // Star field + elegant cross sparkles.
+    (function createDeluxeSky() {
+      const field = document.getElementById('starField');
+      const starCount = window.innerWidth < 600 ? 58 : 90;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('span');
+        star.className = 'sky-star' + (i % 13 === 0 ? ' bright' : '');
+        star.style.setProperty('--sx', (Math.random() * 100).toFixed(2) + '%');
+        star.style.setProperty('--sy', (Math.random() * 100).toFixed(2) + '%');
+        star.style.setProperty('--ss', (1 + Math.random() * 2.2).toFixed(1) + 'px');
+        star.style.setProperty('--sd', (2.2 + Math.random() * 4.5).toFixed(2) + 's');
+        star.style.setProperty('--sdelay', (-Math.random() * 6).toFixed(2) + 's');
+        field.appendChild(star);
+      }
+
+      const glitterCount = window.innerWidth < 600 ? 10 : 16;
+      for (let i = 0; i < glitterCount; i++) {
+        const g = document.createElement('span');
+        g.className = 'glitter-cross';
+        const angle = Math.random() * Math.PI * 2;
+        const rx = 18 + Math.random() * 31;
+        const ry = 18 + Math.random() * 34;
+        g.style.setProperty('--gx', (50 + Math.cos(angle) * rx).toFixed(2) + '%');
+        g.style.setProperty('--gy', (50 + Math.sin(angle) * ry).toFixed(2) + '%');
+        g.style.setProperty('--gs', (8 + Math.random() * 14).toFixed(0) + 'px');
+        g.style.setProperty('--gd', (2.8 + Math.random() * 3.8).toFixed(2) + 's');
+        g.style.setProperty('--gdelay', (-Math.random() * 5).toFixed(2) + 's');
+        document.body.appendChild(g);
+      }
+    })();
+
+    // Tap/click anywhere to make a small heart burst.
+    (function heartBurstInteraction() {
+      const palette = ['#ff5d9e', '#ff8fba', '#ffd0e1', '#ffffff', '#ff77aa'];
+      let lastBurst = 0;
+      function burst(x, y) {
+        const now = performance.now();
+        if (now - lastBurst < 120) return;
+        lastBurst = now;
+        const count = window.innerWidth < 600 ? 10 : 14;
+        for (let i = 0; i < count; i++) {
+          const h = document.createElement('span');
+          h.className = 'burst-heart';
+          h.textContent = i % 4 === 0 ? '✦' : '♥';
+          const angle = (Math.PI * 2 * i / count) + (Math.random() - .5) * .35;
+          const distance = 45 + Math.random() * 85;
+          h.style.left = x + 'px';
+          h.style.top = y + 'px';
+          h.style.setProperty('--bx', (Math.cos(angle) * distance).toFixed(1) + 'px');
+          h.style.setProperty('--by', (Math.sin(angle) * distance - 22).toFixed(1) + 'px');
+          h.style.setProperty('--br', ((Math.random() - .5) * 100).toFixed(0) + 'deg');
+          h.style.setProperty('--bs', (9 + Math.random() * 13).toFixed(0) + 'px');
+          h.style.setProperty('--bc', palette[Math.floor(Math.random() * palette.length)]);
+          document.body.appendChild(h);
+          h.addEventListener('animationend', () => h.remove(), { once: true });
+        }
+      }
+      document.addEventListener('pointerdown', (e) => burst(e.clientX, e.clientY), { passive: true });
+    })();
+  </script>
+
+  <div class="soft-vignette"></div>
+
 </body>
 
 </html>
